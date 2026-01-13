@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: debug github.base_ref
-        run: echo "github.base_ref: ${{ github.base_ref }}"
+        run: echo "github.base_ref ${{ github.base_ref }}"
 
   develop-apply:
     if: github.event.issue.pull_request && github.base_ref == 'develop'
