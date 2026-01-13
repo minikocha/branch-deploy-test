@@ -11,9 +11,17 @@ jobs:
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-apply.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/develop
+    permissions:
+      contents: read
+      pull-requests: write
+      repository-projects: read
 
   common-apply:
     if: github.event.issue.pull_request
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-apply.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/common
+    permissions:
+      contents: read
+      pull-requests: write
+      repository-projects: read

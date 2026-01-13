@@ -7,24 +7,33 @@ on:
     types:
       - opened
       - synchronize
-    paths:
-      - "environments/**"
-      - "modules/**"
-      - "terraform/**"
 
 jobs:
   # NOTE: validate/format
   pre-check:
     uses: minikocha/branch-deploy-test/.github/workflows/pre-check.yaml@develop
+    permissions: # NOTE: 呼び出し先に必要な権限を呼び出し元も持っている必要がある
+      contents: read
+      id-token: write # NOTE: OIDCプロバイダーでの認証に必須
 
   develop-plan:
     needs: pre-check
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/develop
+    permissions:
+      actions: write
+      contents: read
+      id-token: write # NOTE: OIDCプロバイダーでの認証に必須
+      pull-requests: write
 
   common-plan:
     needs: pre-check
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/common
+    permissions:
+      actions: write
+      contents: read
+      id-token: write # NOTE: OIDCプロバイダーでの認証に必須
+      pull-requests: write
