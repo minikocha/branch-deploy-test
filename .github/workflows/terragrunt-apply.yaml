@@ -1,0 +1,62 @@
+name: terragrunt-apply
+
+on:
+  workflow_call:
+    inputs:
+      DEPLOYMENT_TARGET:
+        type: string
+        required: true
+
+jobs:
+  terragrunt-apply:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      repository-projects: read
+    steps:
+      - name: branch-deploy
+        id: branch-deploy
+        uses: github/branch-deploy@fded0351b6b79f854b335c11b3d93063461dd288 #v11.1.2
+        with:
+          noop_trigger: ".plan"
+          trigger: ".apply"
+
+      - name: Debug
+        if: steps.branch-deploy.outputs.continue == 'true'
+        run: echo "terragrunt-apply@${{ inputs.DEPLOYMENT_TARGET }} is called"
+
+#  check-pr-approved:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      pull-requests: write
+#      repository-projects: read
+#    outputs:
+#      is_pr_approved: ${{ steps.check-pr-approved.outputs.is_pr_approved }}
+#    steps:
+#      - name: Check pull-request is approved
+#        id: check-pr-approved
+#        run: |
+#          set -euo pipefail
+#
+#          review_decision="$(gh pr view ${{ github.event.pull_request.number }} -R "${{ github.repository }}" --json reviewDecision | jq -r .reviewDecision)"
+#          if [[ "${review_decision}" == "APPROVED" ]]; then
+#            echo "is_pr_approved=true" >>"$GITHUB_OUTPUT"
+#          else
+#            echo "is_pr_approved=false" >>"$GITHUB_OUTPUT"
+#          fi
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Check result
+#        run: echo "${{ steps.check-pr-approved.outputs.is_pr_approved }}"
+#
+#      - name: Comment on pull-request and exit with error
+#        if: steps.check-pr-approved.outputs.is_pr_approved == 'false'
+#        run: |
+#          gh pr comment ${{ github.event.pull_request.number }} -b 'This PR is not approved, so not appled.' -R "${{ github.repository }}"
+#          exit 1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#

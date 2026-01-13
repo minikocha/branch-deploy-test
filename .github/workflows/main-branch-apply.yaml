@@ -1,0 +1,13 @@
+name: main-branch-apply
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  production-apply:
+    if: github.event.issue.pull_request
+    uses: ./.github/workflows/terragrunt-apply.yaml@main
+    with:
+      DEPLOYMENT_TARGET: environments/production

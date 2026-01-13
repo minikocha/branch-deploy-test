@@ -1,0 +1,21 @@
+name: main-branch-plan
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+    #paths:
+
+jobs:
+  # NOTE: validate/format
+  pre-check:
+    uses: ./.github/workflows/pre-check.yaml@main
+
+  production-plan:
+    needs: pre-check
+    uses: ./.github/workflows/terragrunt-plan.yaml@main
+    with:
+      DEPLOYMENT_TARGET: environments/production
