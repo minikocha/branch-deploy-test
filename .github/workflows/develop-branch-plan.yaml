@@ -15,16 +15,16 @@ on:
 jobs:
   # NOTE: validate/format
   pre-check:
-    uses: ./.github/workflows/pre-check.yaml@develop
+    uses: minikocha/branch-deploy-test/.github/workflows/pre-check.yaml@develop
 
   develop-plan:
     needs: pre-check
-    uses: ./.github/workflows/terragrunt-plan.yaml@develop
+    uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/develop
 
   common-plan:
     needs: pre-check
-    uses: ./.github/workflows/terragrunt-plan.yaml@develop
+    uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/common

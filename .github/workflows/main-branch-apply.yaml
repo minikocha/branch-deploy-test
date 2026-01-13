@@ -8,6 +8,6 @@ on:
 jobs:
   production-apply:
     if: github.event.issue.pull_request
-    uses: ./.github/workflows/terragrunt-apply.yaml@main
+    uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-apply.yaml@main
     with:
       DEPLOYMENT_TARGET: environments/production

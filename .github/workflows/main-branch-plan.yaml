@@ -12,10 +12,10 @@ on:
 jobs:
   # NOTE: validate/format
   pre-check:
-    uses: ./.github/workflows/pre-check.yaml@main
+    uses: minikocha/branch-deploy-test/.github/workflows/pre-check.yaml@main
 
   production-plan:
     needs: pre-check
-    uses: ./.github/workflows/terragrunt-plan.yaml@main
+    uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@main
     with:
       DEPLOYMENT_TARGET: environments/production
