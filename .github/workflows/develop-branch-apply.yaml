@@ -1,13 +1,15 @@
 name: develop-branch-apply
 
 on:
+  # NOTE: `issue_comment`イベントは、actionsの設定がデフォルトブランチに存在する必要がある。
+  #       また、デフォルトブランチがmain以外だとエラー（`This deployment has been rejected since it could be dangerous to proceed.`）が発生する。
   issue_comment:
     types:
       - created
 
 jobs:
   develop-apply:
-    #if: github.event.issue.pull_request
+    if: github.event.issue.pull_request # TODO: PRの対象のブランチによる判断を追加する
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-apply.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/develop
