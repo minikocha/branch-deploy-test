@@ -20,7 +20,7 @@ jobs:
     needs: pre-check
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@develop
     with:
-      DEPLOYMENT_TARGET: environments/develop
+      DEPLOYMENT_TARGET: develop
     permissions:
       actions: write
       contents: read
@@ -31,7 +31,7 @@ jobs:
     needs: pre-check
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@develop
     with:
-      DEPLOYMENT_TARGET: environments/common
+      DEPLOYMENT_TARGET: common
     permissions:
       actions: write
       contents: read
