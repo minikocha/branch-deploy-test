@@ -7,7 +7,7 @@ on:
 
 jobs:
   develop-apply:
-    if: github.event.issue.pull_request
+    #if: github.event.issue.pull_request
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-apply.yaml@develop
     with:
       DEPLOYMENT_TARGET: environments/develop
