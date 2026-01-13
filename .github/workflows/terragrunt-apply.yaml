@@ -11,9 +11,12 @@ jobs:
   terragrunt-apply:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      checks: read
+      contents: write
+      deployments: write
       pull-requests: write
       repository-projects: read
+      statuses: read
     steps:
       - name: branch-deploy
         id: branch-deploy
@@ -21,6 +24,7 @@ jobs:
         with:
           noop_trigger: ".plan"
           trigger: ".apply"
+          environment: ${{ inputs.DEPLOYMENT_TARGET }}
 
       - name: Debug
         if: steps.branch-deploy.outputs.continue == 'true'

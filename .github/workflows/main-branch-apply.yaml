@@ -1,13 +1,27 @@
 name: main-branch-apply
 
 on:
+  # NOTE: `issue_comment`イベントはactionsの設定がデフォルトブランチに存在しないと実行されない
   issue_comment:
     types:
       - created
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug github.base_ref
+        run: echo "github.base_ref: ${{ github.base_ref }}"
+
   production-apply:
-    if: github.event.issue.pull_request
+    if: github.event.issue.pull_request && github.base_ref == 'main'
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-apply.yaml@main
     with:
-      DEPLOYMENT_TARGET: environments/production
+      DEPLOYMENT_TARGET: production
+    permissions:
+      checks: read
+      contents: write
+      deployments: write
+      pull-requests: write
+      repository-projects: read
+      statuses: read

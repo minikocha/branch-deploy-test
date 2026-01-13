@@ -12,9 +12,17 @@ jobs:
   # NOTE: validate/format
   pre-check:
     uses: minikocha/branch-deploy-test/.github/workflows/pre-check.yaml@main
+    permissions: # NOTE: 呼び出し先に必要な権限を呼び出し元も持っている必要がある
+      contents: read
+      id-token: write # NOTE: OIDCプロバイダーでの認証に必須
 
   production-plan:
     needs: pre-check
     uses: minikocha/branch-deploy-test/.github/workflows/terragrunt-plan.yaml@main
     with:
-      DEPLOYMENT_TARGET: environments/production
+      DEPLOYMENT_TARGET: production
+    permissions:
+      actions: write
+      contents: read
+      id-token: write # NOTE: OIDCプロバイダーでの認証に必須
+      pull-requests: write
