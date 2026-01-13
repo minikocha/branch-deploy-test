@@ -1,0 +1,19 @@
+name: develop-branch-apply
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  develop-apply:
+    if: github.event.issue.pull_request
+    uses: ./.github/workflows/terragrunt-apply.yaml@develop
+    with:
+      DEPLOYMENT_TARGET: environments/develop
+
+  common-apply:
+    if: github.event.issue.pull_request
+    uses: ./.github/workflows/terragrunt-apply.yaml@develop
+    with:
+      DEPLOYMENT_TARGET: environments/common
