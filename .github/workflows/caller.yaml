@@ -1,0 +1,15 @@
+name: caller
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  runner:
+    uses: minikocha/branch-deploy-test/.github/workflows/runner.yaml@main
+    permissions:
+      contents: read
