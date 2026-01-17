@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "original"
+echo "changed"
